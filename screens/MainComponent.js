@@ -1,10 +1,11 @@
 import { Platform, View } from 'react-native';
-import Constants from 'expo-constants';
-import CampsiteInfoScreen from './CampsiteInfoScreen';
-import DirectoryScreen from './DirectoryScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import DirectoryScreen from './DirectoryScreen';
+import CampsiteInfoScreen from "./CampsiteInfoScreen";
 import HomeScreen from './HomeScreen';
+import AboutScreen from './AboutScreen';
+import ContactScreen from './ContactScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -16,11 +17,22 @@ const screenOptions = {
 const HomeNavigator = () => {
     const Stack = createStackNavigator();
     return (
-        <Stack.Navigator screenOptions={screenOptions}>
+        <Stack.Navigator
+            screenOptions={screenOptions}
+        >
             <Stack.Screen
                 name='Home'
                 component={HomeScreen}
                 options={{ title: 'Home' }}
+            />
+            <Stack.Screen
+                name='About'
+                component={AboutScreen}
+            />
+            <Stack.Screen
+                name='Contact'
+                component={ContactScreen}
+                options={{ title: 'Contact Us' }}
             />
         </Stack.Navigator>
     );
@@ -50,8 +62,6 @@ const DirectoryNavigator = () => {
 };
 
 const Main = () => {
-    //   const [campsites, setCampsites] = useState(CAMPSITES); why did we delete these?
- //     const [selectedCampsiteId, setSelectedCampsiteId] = useState();
     return (
         <View
             style={{
@@ -73,6 +83,16 @@ const Main = () => {
                     name='Directory'
                     component={DirectoryNavigator}
                     options={{ title: 'Directory' }}
+                />
+                <Drawer.Screen
+                    name='About'
+                    component={AboutNavigator}
+                    options={{ title: 'About' }}
+                />
+                <Drawer.Screen
+                    name='Contact'
+                    component={ContactNavigator}
+                    options={{ title: 'Contact Us' }}
                 />
             </Drawer.Navigator>
         </View>
