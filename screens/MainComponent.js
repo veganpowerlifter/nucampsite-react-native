@@ -1,4 +1,5 @@
 import { Platform, View } from 'react-native';
+import Constants from 'expo-constants';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import DirectoryScreen from './DirectoryScreen';
@@ -17,18 +18,29 @@ const screenOptions = {
 const HomeNavigator = () => {
     const Stack = createStackNavigator();
     return (
-        <Stack.Navigator
-            screenOptions={screenOptions}
-        >
+        <Stack.Navigator screenOptions={screenOptions}>
             <Stack.Screen
                 name='Home'
                 component={HomeScreen}
                 options={{ title: 'Home' }}
             />
-            <Stack.Screen
-                name='About'
-                component={AboutScreen}
-            />
+        </Stack.Navigator>
+    );
+};
+
+const AboutNavigator = () => {
+    const Stack = createStackNavigator();
+    return (
+        <Stack.Navigator screenOptions={screenOptions}>
+            <Stack.Screen name='About' component={AboutScreen} />
+        </Stack.Navigator>
+    );
+};
+
+const ContactNavigator = () => {
+    const Stack = createStackNavigator();
+    return (
+        <Stack.Navigator screenOptions={screenOptions}>
             <Stack.Screen
                 name='Contact'
                 component={ContactScreen}
