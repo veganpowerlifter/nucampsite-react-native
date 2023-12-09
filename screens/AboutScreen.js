@@ -1,7 +1,8 @@
 import { ScrollView, Text } from 'react-native';
-import { PARTNERS } from '../shared/partners';
 import { Avatar, Card, ListItem } from 'react-native-elements';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+import Loading from '../components/LoadingComponent';
 
 function Mission() {
     return (
@@ -23,17 +24,45 @@ function Mission() {
 }
 
 const AboutScreen = () => {
-    const [partners, setPartners] = useState(PARTNERS);
+    const partners = useSelector((state) => state.partners);
 
+    if (partners.isLoading) {
+        return (
+            <ScrollView>
+                <Mission />
+                <Card>
+                    <Card.Title>Community Partners</Card.Title>
+                    <Card.Divider />
+                    <Loading />
+                </Card>
+            </ScrollView>
+        );
+    }
+    if (partners.errMess) {
+ //  const [partners, setPartners] = useState(PARTNERS); this local hook has been replaced with a reducer above
+        return (
+            <ScrollView>
+                <Mission />
+                <Card>
+                    <Card.Title>Community Partners</Card.Title>
+                    <Card.Divider />
+                    <Text>{partners.errMess}</Text>
+                </Card>
+            </ScrollView>
+        );
+    }
     return (
         <ScrollView>
             <Mission />
             <Card>
                 <Card.Title>Community Partners</Card.Title>
                 <Card.Divider />
-                {partners.map((partner) => (
+                {partners.partnersArray.map((partner) => (
                     <ListItem key={partner.id}>
-                        <Avatar rounded source={partner.image} />
+                        <Avatar
+                            rounded
+                            source={{ uri: baseUrl + partner.image }}
+                        />
                         <ListItem.Content>
                             <ListItem.Title>{partner.name}</ListItem.Title>
                             <ListItem.Subtitle>
