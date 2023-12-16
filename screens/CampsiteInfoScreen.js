@@ -1,17 +1,19 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Button, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import RenderCampsite from '../features/campsites/RenderCampsite';
 import { toggleFavorite } from '../features/favorites/favoritesSlice';
+import { useState } from 'react';
 
 const CampsiteInfoScreen = ({ route }) => {
     const { campsite } = route.params;
     const comments = useSelector((state) => state.comments);
     const favorites = useSelector((state) => state.favorites);
     const dispatch = useDispatch();
+    //how don i pass the event handler showModal as one of the props from CampsiteInfoScreen? line 48
 
-// const [favorite, setFavorite] = useState(false); - removed to useSelector hook instead
+    // const [favorite, setFavorite] = useState(false); - removed to useSelector hook instead
 
-  const renderCommentItem = ({ item }) => {
+    const renderCommentItem = ({ item }) => {
         return (
             <View style={styles.commentItem}>
                 <Text style={{ fontSize: 14 }}>{item.text}</Text>
@@ -23,7 +25,11 @@ const CampsiteInfoScreen = ({ route }) => {
         );
     };
 
+    const [showModal, setShowModal] = useState(false);
+    // create a local state variable called showModal and a setting function setShowModal with the useState hook passing false as the initial value
+
     return (
+        <>
         <FlatList
             data={comments.commentsArray.filter(
                 (comment) => comment.campsiteId === campsite.id
@@ -35,16 +41,30 @@ const CampsiteInfoScreen = ({ route }) => {
                 paddingVertical: 20
             }}
             ListHeaderComponent={
-                <>
+                <> 
+                {/* react framgent tag is like View component */}
                     <RenderCampsite
                         campsite={campsite}
                         isFavorite={favorites.includes(campsite.id)}
                         markFavorite={() => dispatch(toggleFavorite(campsite.id))}
+                        onShowModal={() => setShowModal(!showModal)}
                     />
                     <Text style={styles.commentsTitle}>Comments</Text>
                 </>
             }
         />
+        {/* //modal week 2 workshop */}
+        <Modal
+        animationType='slide'
+        transparent={false}
+        visible={showModal}
+        onRequestClose={() => setShowModal(!showModal)}
+    >
+        <View>
+            
+        </View>
+        </Modal>
+        </>
     );
 };
 
