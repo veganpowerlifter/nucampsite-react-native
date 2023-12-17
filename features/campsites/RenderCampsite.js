@@ -30,8 +30,7 @@ const RenderCampsite = (props) => {
                                 : props.markFavorite()
                         }
                     />
-                    <Text style={{ margin: 20 }}>{campsite.description}</Text>
-                    <Icon
+                        <Icon
                         name='pencil'
                         type='font-awesome'
                         color='#5637DD'
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     cardRow: {
-        alignments: 'center',
+        alignItems: 'center',
         justifyContent: 'center',
         flex: 1,
         flexDirection: 'row',
