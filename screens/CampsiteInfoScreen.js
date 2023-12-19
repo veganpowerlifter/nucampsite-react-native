@@ -4,6 +4,8 @@ import RenderCampsite from '../features/campsites/RenderCampsite';
 import { toggleFavorite } from '../features/favorites/favoritesSlice';
 import { useState } from 'react';
 import { Input, Rating } from 'react-native-elements';
+import { postComment } from '../features/comments/commentsSlice';
+
 
 const CampsiteInfoScreen = ({ route }) => {
     const { campsite } = route.params;
@@ -19,9 +21,10 @@ const CampsiteInfoScreen = ({ route }) => {
             author,
             rating,
             text,
-            campsiteID: campsite.id // HELP https://medium.com/swlh/es6-object-property-shorthand-make-those-objects-look-cleaner-9392c6ebb18d
+            campsiteId: campsite.id // HELP https://medium.com/swlh/es6-object-property-shorthand-make-those-objects-look-cleaner-9392c6ebb18d
         };
         console.log(newComment);
+        dispatch(postComment(newComment));
         setShowModal(!showModal); // how do i call call setShowModal(!showModal) ?
     };
 
@@ -35,7 +38,12 @@ const CampsiteInfoScreen = ({ route }) => {
         return (
             <View style={styles.commentItem}>
                 <Text style={{ fontSize: 14 }}>{item.text}</Text>
-                <Text style={{ fontSize: 12 }}>{item.rating} Stars</Text>
+                <Rating 
+                    startingValue={item.rating}
+                    imageSize={10}
+                    readonly
+                    style={{alignItems:'flex-start', paddingVertical: '5%'}}
+                    />
                 <Text style={{ fontSize: 12 }}>
                     {`-- ${item.author}, ${item.date}`}
                 </Text>
@@ -92,20 +100,30 @@ const CampsiteInfoScreen = ({ route }) => {
                     />
                     <View>
                         <Input // https://reactnativeelements.com/docs/3.4.2/input
-                            placeholder={author} //from usestate const setup line 52
+                            placeholder="author" //from usestate const setup line 52
                             leftIcon={'user-o'}
                             leftIconContainerStyle={{ paddingRight: 10 }}
                             onChangeText={(author) => setAuthor(author)} //anonymous function
-                            value={text}
+                            value={author}
                         />
                     </View>
                     <View>
                         <Input //https://reactnative.dev/docs/textinput
-                            placeholder={text}
+                            placeholder="comment"
                             leftIcon={'comment-o'}
                             leftIconContainerStyle={{ paddingRight: 10 }} //object is padding right
                             onChangeText={(text) => setText(text)}
                             value={text}
+                        />
+                    </View>
+                    <View style={{ margin: 10 }}>
+                        <Button
+                            onPress={() => {
+                                handleSubmit();
+                                resetForm();
+                            }}
+                            title='Submit'
+                            color='#5637DD'
                         />
                     </View>
                     <View style={{ margin: 10 }}>
