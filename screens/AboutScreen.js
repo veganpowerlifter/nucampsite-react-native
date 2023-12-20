@@ -3,6 +3,7 @@ import { Avatar, Card, ListItem } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import Loading from '../components/LoadingComponent';
+import * as Animatable from 'react-native-animatable';
 
 function Mission() {
     return (
@@ -40,40 +41,52 @@ const AboutScreen = () => {
     }
     if (partners.errMess) {
  //  const [partners, setPartners] = useState(PARTNERS); this local hook has been replaced with a reducer above
-        return (
-            <ScrollView>
-                <Mission />
-                <Card>
-                    <Card.Title>Community Partners</Card.Title>
-                    <Card.Divider />
-                    <Text>{partners.errMess}</Text>
-                </Card>
-            </ScrollView>
-        );
-    }
-    return (
-        <ScrollView>
+ return (
+    <ScrollView>
+        <Animatable.View
+            animation='fadeInDown'
+            duration={2000}
+            delay={1000}
+        >
             <Mission />
             <Card>
                 <Card.Title>Community Partners</Card.Title>
                 <Card.Divider />
-                {partners.partnersArray.map((partner) => (
-                    <ListItem key={partner.id}>
-                        <Avatar
-                            rounded
-                            source={{ uri: baseUrl + partner.image }}
-                        />
-                        <ListItem.Content>
-                            <ListItem.Title>{partner.name}</ListItem.Title>
-                            <ListItem.Subtitle>
-                                {partner.description}
-                            </ListItem.Subtitle>
-                        </ListItem.Content>
-                    </ListItem>
-                ))}
+                <Text>{partners.errMess}</Text>
             </Card>
-        </ScrollView>
-    );
+        </Animatable.View>
+    </ScrollView>
+);
+}
+return (
+<ScrollView>
+    <Animatable.View
+        animation='fadeInDown'
+        duration={2000}
+        delay={1000}
+    >
+        <Mission />
+        <Card>
+            <Card.Title>Community Partners</Card.Title>
+            <Card.Divider />
+            {partners.partnersArray.map((partner) => (
+                <ListItem key={partner.id}>
+                    <Avatar
+                        rounded
+                        source={{ uri: baseUrl + partner.image }}
+                    />
+                    <ListItem.Content>
+                        <ListItem.Title>{partner.name}</ListItem.Title>
+                        <ListItem.Subtitle>
+                            {partner.description}
+                        </ListItem.Subtitle>
+                    </ListItem.Content>
+                </ListItem>
+            ))}
+        </Card>
+    </Animatable.View>
+</ScrollView>
+);
 };
 
 export default AboutScreen;
