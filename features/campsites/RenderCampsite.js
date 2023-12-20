@@ -1,17 +1,17 @@
 import { useRef } from 'react';
-import { StyleSheet, Text, View, PanResponder, Alert } from 'react-native';
+import { StyleSheet, Text, View, PanResponder, Alert, Modal } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { baseUrl } from '../../shared/baseUrl';
 import * as Animatable from 'react-native-animatable';
 
 const RenderCampsite = (props) => {
     const { campsite } = props;
-
     const view = useRef();
-
     const isLeftSwipe = ({ dx }) => dx < -200;
+    const isRightSwipe =({ dx }) => dx < +200; // week 3 workshop task 3
+    const [showModal, setShowModal] = useState(false);
 
-    const panResponder = PanResponder.create({
+    const panResponder = PanResponder.create({ // week 2
         onStartShouldSetPanResponder: () => true,
         onPanResponderGrant: () => {
             view.current
@@ -20,7 +20,7 @@ const RenderCampsite = (props) => {
                     console.log(endState.finished ? 'finished' : 'canceled')
                 );
         },
-        onPanResponderEnd: (e, gestureState) => {
+        onPanResponderEnd: (e, gestureState) => { // week 2
             console.log('pan responder end', gestureState);
             if (isLeftSwipe(gestureState)) {
                 Alert.alert(
@@ -44,7 +44,8 @@ const RenderCampsite = (props) => {
                     ],
                     { cancelable: false }
                 );
-            }
+            }   else if (isRightSwipe(gestrueState)) // week 3 workshop task 3
+            {setShowModal(!showModal)} // NEED HELP HERE. call an event handler to show comment from the modal
         }
     });
 
